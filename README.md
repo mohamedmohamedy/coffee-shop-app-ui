@@ -5,7 +5,7 @@ App concept created with [Flutter](https://flutter.dev/) using Dart programming 
 ## About
 
 This is an UI for a Coffee Shop app, that helps the customer to enter the app Products, choose any one he want and look for it's details. 
-i used Provider State managment to deliver the data through the applicaaion, amd used Flutter Material widgets for designing.
+i used Provider State managment to deliver the data through the application, and used Flutter Material widgets for designing.
 
 ### Design Details
 the whole UI is inspiring for [Dribbble](https://dribbble.com) website and helped me a lot with new ideas.

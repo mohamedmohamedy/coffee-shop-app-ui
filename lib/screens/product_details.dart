@@ -18,7 +18,11 @@ class ProductDetails extends StatefulWidget {
 
 class _ProductDetailsState extends State<ProductDetails> {
   double? _ratingValue;
- 
+
+  bool _iselected1 = true;
+  bool _iselected2 = false;
+  bool _iselected3 = false;
+
   @override
   Widget build(BuildContext context) {
     final productId = ModalRoute.of(context)!.settings.arguments as String;
@@ -40,7 +44,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(15),
                   child: const Image(
-                    image:  AssetImage('assets/images/whitecoffee3.jpg'),
+                    image: AssetImage('assets/images/whitecoffee3.jpg'),
                     fit: BoxFit.cover,
                     //height: 300,
                   ),
@@ -55,7 +59,21 @@ class _ProductDetailsState extends State<ProductDetails> {
                         fit: BoxFit.fill,
                         image: AssetImage(loadedProduct.image)),
                   ),
-                )
+                ),
+                Positioned(
+                  top: 20,
+                  left: 10,
+                  child: ElevatedButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    style: ElevatedButton.styleFrom(
+                      fixedSize: const Size(40, 40),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12)),
+                      primary: Colors.blueGrey[900],
+                    ),
+                    child: const Icon(Icons.arrow_back),
+                  ),
+                ),
               ],
             ),
           ),
@@ -145,22 +163,44 @@ class _ProductDetailsState extends State<ProductDetails> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 PublicButton(
-                  () {},
+                  () {
+                    setState(() {
+                      _iselected1 = true;
+                      _iselected2 = false;
+                      _iselected3 = false;
+                    });
+                  },
                   '250gm',
                   15,
                   25,
-                  buttonColor: Colors.orange,
-                  textColor: Colors.white,
+                  buttonColor: _iselected1 ? Colors.orange : Colors.orange[50],
+                  textColor: _iselected1 ? Colors.white : Colors.black,
                 ),
-                PublicButton(() {}, '500gm', 15, 25,
-                    buttonColor: Colors.orange[50], textColor: Colors.black),
+                PublicButton(() {
+                  setState(
+                    () {
+                      _iselected1 = false;
+                      _iselected2 = true;
+                      _iselected3 = false;
+                    },
+                  );
+                }, '500gm', 15, 25,
+                    buttonColor:
+                        _iselected2 ? Colors.orange : Colors.orange[50],
+                    textColor: _iselected2 ? Colors.white : Colors.black),
                 PublicButton(
-                  () {},
+                  () {
+                    setState(() {
+                      _iselected1 = false;
+                      _iselected2 = false;
+                      _iselected3 = true;
+                    });
+                  },
                   '1000gm',
                   15,
                   25,
-                  buttonColor: Colors.orange[50],
-                  textColor: Colors.black,
+                  buttonColor: _iselected3 ? Colors.orange : Colors.orange[50],
+                  textColor: _iselected3 ? Colors.white : Colors.black,
                 ),
               ],
             ),
@@ -196,7 +236,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           //........................Button......................................
           Padding(
             padding: const EdgeInsets.only(top: 15.0),
-            child: Container(
+            child: SizedBox(
                 width: 300,
                 child: PublicButton(
                   () {},

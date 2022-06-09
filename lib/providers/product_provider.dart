@@ -6,6 +6,7 @@ class Product with ChangeNotifier {
   final String image;
   final int price;
   final String description;
+  final String image2;
 
   Product({
     required this.id,
@@ -13,5 +14,6 @@ class Product with ChangeNotifier {
     required this.image,
     required this.price,
     required this.description,
+    required this.image2
   });
 }

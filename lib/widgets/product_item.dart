@@ -6,7 +6,7 @@ class ProductItem extends StatelessWidget {
   final String coffeeName;
   final String firstImage;
   final String secondImage;
-  final double price;
+  final int price;
   final String productID;
 
   // ignore: use_key_in_widget_constructors
@@ -29,7 +29,7 @@ class ProductItem extends StatelessWidget {
         padding: const EdgeInsets.all(10),
         height: 250,
         child: Card(
-          elevation: 8,
+          elevation: 10,
           shadowColor: Colors.grey,
           margin: const EdgeInsets.all(5),
           shape: OutlineInputBorder(
@@ -37,6 +37,7 @@ class ProductItem extends StatelessWidget {
               borderSide: const BorderSide(color: Colors.white)),
           child: Row(
             children: [
+              //.............Coffee name........................................
               Padding(
                 padding: const EdgeInsets.only(left: 15),
                 child: Column(
@@ -62,19 +63,22 @@ class ProductItem extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+                    //.........................price............................
                     Chip(
                       label: Text(
                         '\$$price',
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.primary,
+                        style: const TextStyle(
+                          color: Colors.brown,
                           fontSize: 16,
                         ),
                       ),
                     ),
                     const SizedBox(height: 10),
+                    //....................add icon..............................
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        shape: CircleBorder(),
+                        shape: const CircleBorder(),
+                        //primary: Color.fromRGBO(67, 41, 13, .5),
                       ),
                       onPressed: () => Navigator.of(context).pushNamed(
                         ProductDetails.routeName,
@@ -83,6 +87,7 @@ class ProductItem extends StatelessWidget {
                       child: const Icon(Icons.add),
                     ),
                   ],
+                  //........................Images..............................
                 ),
               ),
               SizedBox(

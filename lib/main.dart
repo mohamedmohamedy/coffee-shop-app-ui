@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import './screens/home_screen.dart';
 import './screens/products_screen.dart';
 import './screens/product_details.dart';
+import 'screens/products_screen.dart';
+import 'screens/home_screen.dart';
 
 import 'providers/product_provider.dart';
 import 'providers/coffee_provider.dart';
@@ -20,19 +22,26 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => Product(id: '',name: '', image: '', price: 0, description: '')),
+        ChangeNotifierProvider(
+            create: (context) => Product(
+                id: '',
+                name: '',
+                image: '',
+                image2: '',
+                price: 0,
+                description: '')),
         ChangeNotifierProvider(create: (context) => CoffeeProvider()),
-
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Coffee Shop',
         theme: ThemeData.from(
           colorScheme: const ColorScheme.light(
-            primary: Color.fromRGBO(255, 144, 42, 1),
-            secondary: Color.fromRGBO(255, 144, 42, 1),
+            primary: Color.fromRGBO(255, 144, 42, .7),
+            secondary: Color.fromRGBO(255, 144, 42, .7),
           ),
-          textTheme: const TextTheme(headline6: TextStyle(fontFamily: 'Pacifico')),
+          textTheme:
+              const TextTheme(headline6: TextStyle(fontFamily: 'Pacifico')),
         ),
         initialRoute: HomeScreen.routeName,
         routes: {

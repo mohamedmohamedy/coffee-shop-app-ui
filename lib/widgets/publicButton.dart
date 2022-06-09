@@ -10,7 +10,7 @@ class PublicButton extends StatelessWidget {
 
   // ignore: use_key_in_widget_constructors
   const PublicButton(this.buttonFunction, this.text, this.textSize, this.borderRadius,
-      {this.buttonColor, this.textColor});
+      {this.buttonColor, this.textColor,});
 
   @override
   Widget build(BuildContext context) {

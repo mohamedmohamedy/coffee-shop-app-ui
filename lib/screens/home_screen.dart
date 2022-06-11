@@ -43,9 +43,10 @@ class HomeScreen extends StatelessWidget {
             child: const Text(
               'Coffee Shop',
               style: TextStyle(
-                  fontFamily: 'Pacifico',
-                  fontSize: 37,
-                  color: Color.fromRGBO(67, 41, 13, 1)),
+                fontFamily: 'Pacifico',
+                fontSize: 37,
+                color: Color.fromRGBO(67, 41, 13, 1),
+              ),
             ),
           ),
           Positioned(

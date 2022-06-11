@@ -4,8 +4,7 @@ import 'package:provider/provider.dart';
 import './screens/home_screen.dart';
 import './screens/products_screen.dart';
 import './screens/product_details.dart';
-import 'screens/products_screen.dart';
-import 'screens/home_screen.dart';
+import './screens/add_product_screen.dart';
 
 import 'providers/product_provider.dart';
 import 'providers/coffee_provider.dart';
@@ -37,7 +36,7 @@ class MyApp extends StatelessWidget {
         title: 'Coffee Shop',
         theme: ThemeData.from(
           colorScheme: const ColorScheme.light(
-            primary: Color.fromRGBO(255, 144, 42, .7),
+            primary: Color.fromRGBO(67, 41, 13, 1),
             secondary: Color.fromRGBO(255, 144, 42, .7),
           ),
           textTheme:
@@ -48,6 +47,7 @@ class MyApp extends StatelessWidget {
           HomeScreen.routeName: (ctx) => const HomeScreen(),
           ProductsScreen.routeName: (ctx) => const ProductsScreen(),
           ProductDetails.routeName: (ctx) => const ProductDetails(),
+          AddProductScreen.routeName: (context) => const AddProductScreen(),
         },
       ),
     );

@@ -14,6 +14,6 @@ class Product with ChangeNotifier {
     required this.image,
     required this.price,
     required this.description,
-    required this.image2
+     required this.image2
   });
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../screens/add_product_screen.dart';
+
 import '../providers/coffee_provider.dart';
 
 import '../widgets/product_item.dart';
@@ -14,6 +16,14 @@ class ProductsScreen extends StatelessWidget {
     final products = Provider.of<CoffeeProvider>(context);
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () =>
+            Navigator.of(context).pushNamed(AddProductScreen.routeName),
+        elevation: 10,
+        tooltip: 'Add new product',
+        backgroundColor: const Color.fromRGBO(84, 59, 31, .8),
+        child: const Icon(Icons.add),
+      ),
       body: Stack(
         children: [
           //...................Background.......................................
@@ -34,7 +44,7 @@ class ProductsScreen extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              //search bar..........................................................
+              //..................search bar....................................
               Container(
                 decoration: BoxDecoration(
                   color: const Color.fromRGBO(84, 59, 31, .5),

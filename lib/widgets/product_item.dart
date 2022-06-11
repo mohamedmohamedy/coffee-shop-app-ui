@@ -13,7 +13,7 @@ class ProductItem extends StatelessWidget {
   const ProductItem({
     required this.coffeeName,
     required this.firstImage,
-    required this.secondImage,
+     required this.secondImage,
     required this.price,
     required this.productID,
   });

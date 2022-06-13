@@ -25,8 +25,8 @@ class MyApp extends StatelessWidget {
             create: (context) => Product(
                 id: '',
                 name: '',
-                image: '',
-                image2: '',
+                image: Image(image: AssetImage('')),
+                image2:Image(image: AssetImage('')) ,
                 price: 0,
                 description: '')),
         ChangeNotifierProvider(create: (context) => CoffeeProvider()),

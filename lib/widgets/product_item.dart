@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
 import '../screens/product_details.dart';
+import '../screens/add_product_screen.dart';
 
 class ProductItem extends StatelessWidget {
-  final String coffeeName;
-  final String firstImage;
-  final String secondImage;
-  final int price;
-  final String productID;
+  final String? coffeeName;
+  final Image firstImage;
+  final Image secondImage;
+  final int? price;
+  final String? productID;
 
   // ignore: use_key_in_widget_constructors
   const ProductItem({
@@ -46,7 +47,7 @@ class ProductItem extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 15.0),
                       child: Text(
-                        coffeeName,
+                        coffeeName!,
                         style: const TextStyle(
                           fontFamily: 'Roboto',
                           fontSize: 20,
@@ -81,7 +82,7 @@ class ProductItem extends StatelessWidget {
                         //primary: Color.fromRGBO(67, 41, 13, .5),
                       ),
                       onPressed: () => Navigator.of(context).pushNamed(
-                        ProductDetails.routeName,
+                        AddProductScreen.routeName,
                         arguments: productID,
                       ),
                       child: const Icon(Icons.add),
@@ -95,7 +96,7 @@ class ProductItem extends StatelessWidget {
                 width: 130,
                 child: FittedBox(
                   fit: BoxFit.cover,
-                  child: Image.asset(firstImage),
+                  child: firstImage,
                 ),
               ),
               SizedBox(
@@ -103,7 +104,7 @@ class ProductItem extends StatelessWidget {
                 width: 15,
                 child: FittedBox(
                   fit: BoxFit.cover,
-                  child: Image.asset(secondImage),
+                  child: (secondImage),
                 ),
               ),
             ],

@@ -1,3 +1,4 @@
+import 'package:coffee_shop/screens/add_product_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -29,6 +30,7 @@ class _ProductDetailsState extends State<ProductDetails> {
     final loadedProduct =
         Provider.of<CoffeeProvider>(context, listen: false).findById(productId);
     return Scaffold(
+      
       body: Column(
         children: [
           //................images..............................................
@@ -53,12 +55,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   top: 130,
                   right: 70,
                   child: SizedBox(
-                    height: 170,
-                    width: 200,
-                    child: Image(
-                        fit: BoxFit.fill,
-                        image: AssetImage(loadedProduct.image)),
-                  ),
+                      height: 170, width: 200, child: loadedProduct.image),
                 ),
                 Positioned(
                   top: 20,
@@ -90,7 +87,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      loadedProduct.name + ' Coffee',
+                      loadedProduct.name! + ' Coffee',
                       style: const TextStyle(
                           fontFamily: 'Roboto',
                           fontSize: 25,
@@ -224,7 +221,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   child: SingleChildScrollView(
                     scrollDirection: Axis.vertical,
                     child: Text(
-                      loadedProduct.description,
+                      loadedProduct.description!,
                       textAlign: TextAlign.center,
                       style: TextStyle(color: Colors.blueGrey[400]),
                     ),

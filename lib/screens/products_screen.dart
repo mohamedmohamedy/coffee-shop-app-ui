@@ -16,6 +16,7 @@ class ProductsScreen extends StatelessWidget {
     final products = Provider.of<CoffeeProvider>(context);
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
+  
       floatingActionButton: FloatingActionButton(
         onPressed: () =>
             Navigator.of(context).pushNamed(AddProductScreen.routeName),

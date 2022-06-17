@@ -1,14 +1,13 @@
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 
 class ImageHandler extends StatelessWidget {
-  File? image;
+  final String? image;
   final Function imageFunction;
 
   final String buttonText;
 
-  ImageHandler(
+  const ImageHandler(
       {Key? key,
       required this.image,
       required this.imageFunction,
@@ -29,7 +28,7 @@ class ImageHandler extends StatelessWidget {
                   border: Border.all(color: Colors.brown, width: 1)),
               child: image != null
                   ? FittedBox(
-                      child: Image.file(
+                      child: Image.network(
                         image!,
                         height: 100,
                         width: 100,

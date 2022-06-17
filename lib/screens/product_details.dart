@@ -55,7 +55,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   top: 130,
                   right: 70,
                   child: SizedBox(
-                      height: 170, width: 200, child: loadedProduct.image),
+                      height: 170, width: 200, child:Image(image: NetworkImage(loadedProduct.image1!), fit: BoxFit.cover,)),
                 ),
                 Positioned(
                   top: 20,
@@ -87,14 +87,14 @@ class _ProductDetailsState extends State<ProductDetails> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      loadedProduct.name! + ' Coffee',
+                      '${loadedProduct.name!} Coffee',
                       style: const TextStyle(
                           fontFamily: 'Roboto',
                           fontSize: 25,
                           fontWeight: FontWeight.bold),
                     ),
                     Text(
-                      '\$' + loadedProduct.price.toString(),
+                      '\$${loadedProduct.price}',
                       style: const TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 20,

@@ -7,16 +7,33 @@ import '../providers/coffee_provider.dart';
 
 import '../widgets/product_item.dart';
 
-class ProductsScreen extends StatelessWidget {
+class ProductsScreen extends StatefulWidget {
   static const routeName = 'test-screen';
   const ProductsScreen({Key? key}) : super(key: key);
+
+  @override
+  State<ProductsScreen> createState() => _ProductsScreenState();
+}
+
+class _ProductsScreenState extends State<ProductsScreen> {
+  bool _intialState = true;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_intialState) {
+      Provider.of<CoffeeProvider>(context).fetchProducts();
+    }
+    setState(() {
+      _intialState = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final products = Provider.of<CoffeeProvider>(context);
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
-  
       floatingActionButton: FloatingActionButton(
         onPressed: () =>
             Navigator.of(context).pushNamed(AddProductScreen.routeName),
@@ -93,8 +110,12 @@ class ProductsScreen extends StatelessWidget {
                   itemCount: products.items.length,
                   itemBuilder: (context, index) => ProductItem(
                     coffeeName: products.items[index].name,
-                    firstImage: products.items[index].image,
-                    secondImage: products.items[index].image2,
+                    firstImage: Image(
+                      image: NetworkImage(products.items[index].image1!),
+                    ),
+                    secondImage: Image(
+                      image: NetworkImage(products.items[index].image2!),
+                    ),
                     price: products.items[index].price,
                     productID: products.items[index].id,
                   ),

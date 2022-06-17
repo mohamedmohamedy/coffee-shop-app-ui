@@ -7,31 +7,12 @@ import '../providers/coffee_provider.dart';
 
 import '../widgets/product_item.dart';
 
-class ProductsScreen extends StatefulWidget {
+class ProductsScreen extends StatelessWidget {
   static const routeName = 'test-screen';
   const ProductsScreen({Key? key}) : super(key: key);
 
   @override
-  State<ProductsScreen> createState() => _ProductsScreenState();
-}
-
-class _ProductsScreenState extends State<ProductsScreen> {
-  bool _intialState = true;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (_intialState) {
-      Provider.of<CoffeeProvider>(context).fetchProducts();
-    }
-    setState(() {
-      _intialState = false;
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final products = Provider.of<CoffeeProvider>(context);
     final screenSize = MediaQuery.of(context).size;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
@@ -44,7 +25,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
       ),
       body: Stack(
         children: [
-          //...................Background.......................................
+          //...................Background.....................................................................
           Opacity(
             opacity: .7,
             child: Image(
@@ -62,7 +43,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              //..................search bar....................................
+              //..................search bar..................................................................
               Container(
                 decoration: BoxDecoration(
                   color: const Color.fromRGBO(84, 59, 31, .5),
@@ -90,7 +71,7 @@ class _ProductsScreenState extends State<ProductsScreen> {
                 ),
               ),
 
-              //........................Headline....................................
+              //........................Headline..............................................................
               const Padding(
                 padding: EdgeInsets.only(left: 30),
                 child: Text(
@@ -103,23 +84,44 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   textAlign: TextAlign.start,
                 ),
               ),
-              //...........................products...................................
-              Expanded(
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: products.items.length,
-                  itemBuilder: (context, index) => ProductItem(
-                    coffeeName: products.items[index].name,
-                    firstImage: Image(
-                      image: NetworkImage(products.items[index].image1!),
-                    ),
-                    secondImage: Image(
-                      image: NetworkImage(products.items[index].image2!),
-                    ),
-                    price: products.items[index].price,
-                    productID: products.items[index].id,
-                  ),
-                ),
+              //...........................products...........................................................
+              FutureBuilder(
+                future: Provider.of<CoffeeProvider>(context, listen: false)
+                    .fetchProducts(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  } else if (snapshot.error != null) {
+                    return const Center(
+                      child: Text('Error occuerd!'),
+                    );
+                  } else {
+                    return Expanded(
+                      child: Consumer<CoffeeProvider>(
+                        builder: ((context, products, child) =>
+                            ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: products.items.length,
+                              itemBuilder: (context, index) => ProductItem(
+                                coffeeName: products.items[index].name,
+                                firstImage: Image(
+                                  image: NetworkImage(
+                                      products.items[index].image1!),
+                                ),
+                                secondImage: Image(
+                                  image: NetworkImage(
+                                      products.items[index].image2!),
+                                ),
+                                price: products.items[index].price,
+                                productID: products.items[index].id,
+                              ),
+                            )),
+                      ),
+                    );
+                  }
+                },
               ),
             ],
           ),

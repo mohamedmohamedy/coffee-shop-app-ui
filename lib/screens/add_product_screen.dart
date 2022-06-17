@@ -88,12 +88,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
     }
     _form.currentState!.save();
     if (_addedProduct.id != null) {
-      Provider.of<CoffeeProvider>(context, listen: false)
+      await Provider.of<CoffeeProvider>(context, listen: false)
           .updateProduct(_addedProduct.id!, _addedProduct);
-      setState(() {
-        _isLoading = false;
-      });
-      Navigator.of(context).pop();
     } else {
       try {
         await Provider.of<CoffeeProvider>(context, listen: false)
@@ -111,13 +107,13 @@ class _AddProductScreenState extends State<AddProductScreen> {
             ],
           ),
         );
-      } finally {
-        setState(() {
-          _isLoading = false;
-        });
-        Navigator.of(context).pop();
       }
     }
+    setState(() {
+      _isLoading = false;
+    });
+    // ignore: use_build_context_synchronously
+    Navigator.of(context).pop();
   }
 
 //..................pick the first image........................................

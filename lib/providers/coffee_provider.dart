@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import './product_provider.dart';
+import '../models/http_exception.dart';
 
 class CoffeeProvider with ChangeNotifier {
   List<Product> _items = [];
 
+// get a copy of the products.
   List<Product> get items {
     return [..._items];
   }
@@ -18,7 +20,7 @@ class CoffeeProvider with ChangeNotifier {
     return _items.firstWhere((product) => product.id == id);
   }
 
-// Fetch products from the database.
+//.................... Fetch products from the database.........................
 
   Future<void> fetchProducts() async {
     final url = Uri.parse(
@@ -50,7 +52,7 @@ class CoffeeProvider with ChangeNotifier {
     }
   }
 
-// to add new product.
+//...........................to add new product.................................
   Future<void> addNewProduct(Product product) async {
     final url = Uri.parse(
         'https://coffee-shop-48c6b-default-rtdb.firebaseio.com/products.json');
@@ -88,10 +90,46 @@ class CoffeeProvider with ChangeNotifier {
     }
   }
 
-  //to update an existing product.
-  void updateProduct(String id, Product newProduct) {
-    final oldProduct = _items.indexWhere((element) => element.id == id);
-    _items[oldProduct] = newProduct;
+  //......................to update an existing product.........................
+  Future<void> updateProduct(String id, Product newProduct) async {
+    final url = Uri.parse(
+        'https://coffee-shop-48c6b-default-rtdb.firebaseio.com/products/$id.json');
+    try {
+      await http.patch(url,
+          body: json.encode({
+            'description': newProduct.description,
+            'image1': newProduct.image1,
+            'image2': newProduct.image2,
+            'price': newProduct.price,
+            'name': newProduct.name
+          }));
+
+      final oldProduct = _items.indexWhere((element) => element.id == id);
+      _items[oldProduct] = newProduct;
+      notifyListeners();
+    } catch (error) {
+      log(name: 'error', '$error');
+    }
+  }
+
+//...........................Delete product.....................................
+
+  Future<void> deleteProduct(String iD) async {
+    final selectedProductIndex =
+        _items.indexWhere((product) => product.id == iD);
+    Product? selectedProduct = _items[selectedProductIndex];
+    _items.removeAt(selectedProductIndex);
     notifyListeners();
+
+    final url = Uri.parse(
+        'https://coffee-shop-48c6b-default-rtdb.firebaseio.com/products/$iD.json');
+
+    final response = await http.delete(url);
+    if (response.statusCode >= 400) {
+      _items.insert(selectedProductIndex, selectedProduct);
+      notifyListeners();
+      throw HttpException('Couldn\'t delete product');
+    }
+    selectedProduct = null;
   }
 }

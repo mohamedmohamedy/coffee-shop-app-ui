@@ -84,7 +84,10 @@ class _AddProductScreenState extends State<AddProductScreen> {
     });
     final isValid = _form.currentState!.validate();
     if (!isValid) {
-      return;
+      setState(() {
+        _isLoading = false;
+        return;
+      });
     }
     _form.currentState!.save();
     if (_addedProduct.id != null) {
@@ -215,12 +218,14 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   key: _form,
                   child: ListView(
                     children: [
+                      //........name...................................................
                       TextFormField(
                           initialValue: _intialValues['name'].toString(),
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'Please insert the Coffee name ';
                             }
+                            return null;
                           },
                           textInputAction: TextInputAction.next,
                           keyboardType: TextInputType.name,
@@ -239,18 +244,27 @@ class _AddProductScreenState extends State<AddProductScreen> {
                               image2: _addedProduct.image2,
                             );
                           }),
+
+                      //................price.....................................
                       TextFormField(
                         initialValue: _intialValues['price'].toString(),
                         validator: (value) {
                           if (value!.isEmpty) {
                             return 'Please enter the price';
+                          } else if (int.tryParse(value) == null) {
+                            return 'please enter a valid number.';
+                          } else if (value.contains('-')) {
+                            return 'please enter a positive number.';
                           }
+                          return null;
                         },
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly
+                        ],
                         onFieldSubmitted: (_) => FocusScope.of(context)
                             .requestFocus(_descriptionFocusNode),
                         focusNode: _priceFocusNode,
                         textInputAction: TextInputAction.next,
-                        autocorrect: true,
                         keyboardType: TextInputType.number,
                         decoration: const InputDecoration(
                           labelText: 'Enter the price',
@@ -266,12 +280,15 @@ class _AddProductScreenState extends State<AddProductScreen> {
                           );
                         },
                       ),
+
+                      //............Description.......................................
                       TextFormField(
                           initialValue: _intialValues['description'].toString(),
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'Please enter the description';
                             }
+                            return null;
                           },
                           focusNode: _descriptionFocusNode,
                           maxLines: 3,

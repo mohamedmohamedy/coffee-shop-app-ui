@@ -1,19 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../screens/products_screen.dart';
+import '../screens/auth_screen.dart';
+
+import '../providers/auth_provider.dart';
 
 import '../widgets/publicButton.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   static const routeName = 'home-screen';
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  bool _isInit = true;
+
+  // to send the token (if existed) to the provider in the beginning.
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (_isInit) {
+      Provider.of<AuthProvider>(context).autoLogIn();
+    }
+
+    _isInit = false;
+  }
+
+  @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
+    final authData = Provider.of<AuthProvider>(context, listen: false);
     return Scaffold(
       body: Stack(
         children: [
+          //..................Background........................................
           Opacity(
             opacity: .7,
             child: Image(
@@ -28,6 +53,7 @@ class HomeScreen extends StatelessWidget {
             ),
             height: screenSize.height,
           ),
+          //.....................Logo.............................................
           Positioned(
             top: screenSize.height * .1,
             left: screenSize.width * .2,
@@ -49,6 +75,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
           ),
+          //......................... Starting button..............................
           Positioned(
             top: screenSize.height * .85,
             left: screenSize.width * .16,
@@ -56,7 +83,17 @@ class HomeScreen extends StatelessWidget {
               height: 50,
               width: 250,
               child: PublicButton(
-                () => Navigator.of(context).pushNamed(ProductsScreen.routeName),
+                // if user got a token, navigate automatically to products screen. if not sign in or sign up.
+                () {
+                  authData.isAuth
+                      ? Navigator.of(context)
+                          .pushNamed(ProductsScreen.routeName)
+                      : authData.autoLogIn().then(
+                            (_) => Navigator.of(context)
+                                .pushNamed(AuthScreen.routeName),
+                          );
+                },
+
                 'Get started',
                 19,
                 25,

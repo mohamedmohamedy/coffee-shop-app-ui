@@ -8,9 +8,11 @@ import './screens/home_screen.dart';
 import './screens/products_screen.dart';
 import './screens/product_details.dart';
 import './screens/add_product_screen.dart';
+import './screens/auth_screen.dart';
 
-import 'providers/product_provider.dart';
-import 'providers/coffee_provider.dart';
+import './providers/product_provider.dart';
+import './providers/coffee_provider.dart';
+import './providers/auth_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -27,14 +29,23 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-            create: (context) => Product(
-                id: '',
-                name: '',
-                image1: '',
-                image2: '',
-                price: 0,
-                description: '')),
-        ChangeNotifierProvider(create: (context) => CoffeeProvider()),
+          create: (context) => Product(
+              id: '',
+              name: '',
+              image1: '',
+              image2: '',
+              price: 0,
+              description: ''),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => AuthProvider(),
+        ),
+        ChangeNotifierProxyProvider<AuthProvider, CoffeeProvider>(
+          create: (context) => CoffeeProvider('', []),
+          update: (context, auth, previousProducts) => CoffeeProvider(
+              auth.token,
+              previousProducts == null ? [] : previousProducts.items),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -53,6 +64,7 @@ class MyApp extends StatelessWidget {
           ProductsScreen.routeName: (ctx) => const ProductsScreen(),
           ProductDetails.routeName: (ctx) => const ProductDetails(),
           AddProductScreen.routeName: (context) => const AddProductScreen(),
+          AuthScreen.routeName: (context) => const AuthScreen(),
         },
       ),
     );

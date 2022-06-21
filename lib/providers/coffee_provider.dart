@@ -9,6 +9,9 @@ import '../models/http_exception.dart';
 
 class CoffeeProvider with ChangeNotifier {
   List<Product> _items = [];
+  String? token;
+
+  CoffeeProvider(this.token, this._items);
 
 // get a copy of the products.
   List<Product> get items {
@@ -24,7 +27,7 @@ class CoffeeProvider with ChangeNotifier {
 
   Future<void> fetchProducts() async {
     final url = Uri.parse(
-        'https://coffee-shop-48c6b-default-rtdb.firebaseio.com/products.json');
+        'https://coffee-shop-48c6b-default-rtdb.firebaseio.com/products.json?auth=$token');
     try {
       final response = await http.get(url);
 
@@ -55,7 +58,7 @@ class CoffeeProvider with ChangeNotifier {
 //...........................to add new product.................................
   Future<void> addNewProduct(Product product) async {
     final url = Uri.parse(
-        'https://coffee-shop-48c6b-default-rtdb.firebaseio.com/products.json');
+        'https://coffee-shop-48c6b-default-rtdb.firebaseio.com/products.json?auth=$token');
     try {
       final response = await http.post(
         url,
@@ -93,7 +96,7 @@ class CoffeeProvider with ChangeNotifier {
   //......................to update an existing product.........................
   Future<void> updateProduct(String id, Product newProduct) async {
     final url = Uri.parse(
-        'https://coffee-shop-48c6b-default-rtdb.firebaseio.com/products/$id.json');
+        'https://coffee-shop-48c6b-default-rtdb.firebaseio.com/products/$id.json?auth=$token');
     try {
       await http.patch(url,
           body: json.encode({
@@ -122,7 +125,7 @@ class CoffeeProvider with ChangeNotifier {
     notifyListeners();
 
     final url = Uri.parse(
-        'https://coffee-shop-48c6b-default-rtdb.firebaseio.com/products/$iD.json');
+        'https://coffee-shop-48c6b-default-rtdb.firebaseio.com/products/$iD.json?auth=$token');
 
     final response = await http.delete(url);
     if (response.statusCode >= 400) {

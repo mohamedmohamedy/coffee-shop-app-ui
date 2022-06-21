@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../screens/add_product_screen.dart';
 
 import '../providers/coffee_provider.dart';
+import '../providers/auth_provider.dart';
 
 import '../widgets/product_item.dart';
 
@@ -44,31 +45,66 @@ class ProductsScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //..................search bar..................................................................
-              Container(
-                decoration: BoxDecoration(
-                  color: const Color.fromRGBO(84, 59, 31, .5),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                margin: const EdgeInsets.only(
-                    top: 60, left: 30, right: 30, bottom: 20),
-                height: 50,
-                width: 100,
-                child: TextField(
-                  decoration: InputDecoration(
-                    suffixIcon: const Icon(Icons.search),
-                    prefixIcon: const Padding(
-                      padding: EdgeInsets.all(5.0),
-                      child: CircleAvatar(
-                        radius: 10,
-                        backgroundImage: AssetImage('assets/images/avatar.png'),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: const Color.fromRGBO(84, 59, 31, .5),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    margin: const EdgeInsets.only(
+                        top: 60, left: 30, right: 30, bottom: 20),
+                    height: 50,
+                    width: 100,
+                    child: TextField(
+                      decoration: InputDecoration(
+                        suffixIcon: const Icon(Icons.search),
+                        prefixIcon: const Padding(
+                          padding: EdgeInsets.all(5.0),
+                          child: CircleAvatar(
+                            radius: 10,
+                            backgroundImage:
+                                AssetImage('assets/images/avatar.png'),
+                          ),
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: const BorderSide(color: Colors.grey),
+                        ),
                       ),
                     ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: const BorderSide(color: Colors.grey),
+                  ),
+
+                  //................LogOut button.....................................
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 70, left: 30, right: 30, bottom: 20),
+                    child: SizedBox(
+                      height: 50,
+                      child: ElevatedButton.icon(
+                        style: ElevatedButton.styleFrom(
+                          elevation: 10,
+                          primary: const Color.fromRGBO(84, 59, 31, .5),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                            side: const BorderSide(color: Colors.black54),
+                          ),
+                        ),
+                        label: const Text('Log out'),
+                        onPressed: () {
+                          Provider.of<AuthProvider>(context, listen: false)
+                              .signOut();
+                          Navigator.of(context).pop();
+                        },
+                        icon: const Icon(
+                          Icons.logout,
+                          size: 20,
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                ],
               ),
 
               //........................Headline..............................................................

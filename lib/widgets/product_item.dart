@@ -94,12 +94,21 @@ class ProductItem extends StatelessWidget {
                   ),
                   //........................Images................................
                   SizedBox(
-                    height: 100,
+                    height: 130,
                     width: 130,
-                    child: FittedBox(
-                      fit: BoxFit.cover,
-                      child: firstImage,
+                    child: Hero(
+                      tag: productID!,
+                      child: FadeInImage(
+                        placeholder: const AssetImage('assets/images/place-holder2.png'),
+                        image:  firstImage.image ,  
+                        fit: BoxFit.cover, 
+                        placeholderFit: BoxFit.scaleDown,                
+                      ),
                     ),
+                    // child: FittedBox(
+                    //   fit: BoxFit.cover,
+                    //   child: firstImage,
+                    // ),
                   ),
                   SizedBox(
                     height: 80,

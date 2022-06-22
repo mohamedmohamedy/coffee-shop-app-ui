@@ -101,7 +101,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
         await showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
-            title: const Text('Error occorad!'),
+            title: const Text('Error occurred!'),
             content: const Text('There is an error happened'),
             actions: [
               TextButton(
@@ -326,8 +326,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
                         child: SizedBox(
                             height: 40,
                             child: PublicButton(
-                              () {
-                                _saveForm();
+                              () async {
+                                await _saveForm();
                               },
                               'Save',
                               15,

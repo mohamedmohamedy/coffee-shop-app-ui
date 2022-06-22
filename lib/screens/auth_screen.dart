@@ -33,6 +33,7 @@ class AuthScreen extends StatelessWidget {
             ),
             height: screenSize.height,
           ),
+
           SingleChildScrollView(
             child: SizedBox(
               height: screenSize.height,
@@ -63,7 +64,7 @@ class AuthCard extends StatefulWidget {
   State<AuthCard> createState() => _AuthCardState();
 }
 
-class _AuthCardState extends State<AuthCard> {
+class _AuthCardState extends State<AuthCard> with TickerProviderStateMixin {
   SignType _signType = SignType.signIn;
 
   final Map<String?, String?> _signData = {'E-mail': '', 'Password': ''};
@@ -74,15 +75,49 @@ class _AuthCardState extends State<AuthCard> {
 
   bool _isLoading = false;
 
+// Set up animation controller.
+  late AnimationController _animationController;
+  Animation<double>? _opacityAnimation;
+  Animation<Offset>? _slideAnimation;
+
+// Declare the animation that we use with the Sign form.
+  @override
+  void initState() {
+    super.initState();
+
+    // Declaring the Animation controller.
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+
+    // Declaring the Opacity animation the we use with confirm password TextFormField.
+    _opacityAnimation = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _animationController,
+        curve: Curves.easeInBack,
+      ),
+    );
+
+    // Declaring the SlideTransition Animation.
+
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(0, -1.5),
+      end: const Offset(0, 0),
+    ).animate(
+      CurvedAnimation(parent: _animationController, curve: Curves.easeIn),
+    );
+  }
+
 // Dispose password controller dut to memory leaks.
   @override
   void dispose() {
     super.dispose();
     _passwordController.dispose();
+    _animationController.dispose();
   }
 
   // creating a show dialog for displaying errors...
-
   void _showDialog(String? message) {
     showDialog(
         context: context,
@@ -160,10 +195,14 @@ class _AuthCardState extends State<AuthCard> {
       setState(() {
         _signType = SignType.signUp;
       });
+      // to start the animation
+      _animationController.forward();
     } else {
       setState(() {
         _signType = SignType.signIn;
       });
+      // to reverse the animation
+      _animationController.reverse();
     }
   }
 
@@ -175,7 +214,9 @@ class _AuthCardState extends State<AuthCard> {
         borderRadius: BorderRadius.circular(12.0),
       ),
       elevation: 8.0,
-      child: Container(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        curve: Curves.easeIn,
         width: screenSize.width * 0.75,
         height: _signType == SignType.signUp ? 320 : 260,
         constraints: BoxConstraints(
@@ -218,20 +259,37 @@ class _AuthCardState extends State<AuthCard> {
                   },
                 ),
                 //............Confirm password........................................
-                if (_signType == SignType.signUp)
-                  TextFormField(
-                    enabled: _signType == SignType.signUp,
-                    decoration:
-                        const InputDecoration(labelText: 'Confirm password'),
-                    obscureText: true,
-                    validator: _signType == SignType.signUp
-                        ? (value) {
-                            if (value != _passwordController.text) {
-                              return 'Password don\' match';
-                            }
-                          }
-                        : null,
+
+                // Using animated container to get rid of the white space reserved by FadeTransition.
+                AnimatedContainer(
+                  duration: const Duration(milliseconds: 300),
+                  constraints: BoxConstraints(
+                    minHeight: _signType == SignType.signUp ? 60 : 0,
+                    maxHeight: _signType == SignType.signUp ? 120 : 0,
                   ),
+                  curve: Curves.easeIn,
+                  // Using FadeTransition to display som animation.
+                  child: FadeTransition(
+                    opacity: _opacityAnimation!,
+                    // Using SlideTransition to give an animation that it make the Text Form field to look like as it was hidden under the above TextFormField.
+                    child: SlideTransition(
+                      position: _slideAnimation!,
+                      child: TextFormField(
+                        enabled: _signType == SignType.signUp,
+                        decoration: const InputDecoration(
+                            labelText: 'Confirm password'),
+                        obscureText: true,
+                        validator: _signType == SignType.signUp
+                            ? (value) {
+                                if (value != _passwordController.text) {
+                                  return 'Password don\' match';
+                                }
+                              }
+                            : null,
+                      ),
+                    ),
+                  ),
+                ),
                 const SizedBox(
                   height: 20,
                 ),

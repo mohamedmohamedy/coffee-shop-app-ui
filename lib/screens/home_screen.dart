@@ -8,33 +8,25 @@ import '../providers/auth_provider.dart';
 
 import '../widgets/publicButton.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   static const routeName = 'home-screen';
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  bool _isInit = true;
-
-  // to send the token (if existed) to the provider in the beginning.
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
-    if (_isInit) {
-      Provider.of<AuthProvider>(context).autoLogIn();
-    }
-
-    _isInit = false;
-  }
-
-  @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
-    final authData = Provider.of<AuthProvider>(context, listen: false);
+    final authData = Provider.of<AuthProvider>(context);
+    
+    // Check if the user has a token or not, if he has a valid one he will be signed in automatically, if not he will need to authenticate.
+    void tryLogin() {
+      authData.autoLogIn().then((_) {
+        authData.isAuth
+            ? Navigator.of(context).pushNamed(ProductsScreen.routeName)
+            : Navigator.of(context).pushNamed(AuthScreen.routeName);
+      },
+      );
+    }
+
     return Scaffold(
       body: Stack(
         children: [
@@ -84,16 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
               width: 250,
               child: PublicButton(
                 // if user got a token, navigate automatically to products screen. if not sign in or sign up.
-                () {
-                  authData.isAuth
-                      ? Navigator.of(context)
-                          .pushNamed(ProductsScreen.routeName)
-                      : authData.autoLogIn().then(
-                            (_) => Navigator.of(context)
-                                .pushNamed(AuthScreen.routeName),
-                          );
-                },
-
+                () => tryLogin(),
                 'Get started',
                 19,
                 25,

@@ -30,7 +30,6 @@ class _ProductDetailsState extends State<ProductDetails> {
     final loadedProduct =
         Provider.of<CoffeeProvider>(context, listen: false).findById(productId);
     return Scaffold(
-      
       body: Column(
         children: [
           //................images..............................................
@@ -55,7 +54,16 @@ class _ProductDetailsState extends State<ProductDetails> {
                   top: 130,
                   right: 70,
                   child: SizedBox(
-                      height: 170, width: 200, child:Image(image: NetworkImage(loadedProduct.image1!), fit: BoxFit.cover,)),
+                    height: 170,
+                    width: 200,
+                    child: Hero(
+                      tag: loadedProduct.id!,
+                      child: Image(
+                        image: NetworkImage(loadedProduct.image1!),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
                 ),
                 Positioned(
                   top: 20,
@@ -148,7 +156,7 @@ class _ProductDetailsState extends State<ProductDetails> {
               ],
             ),
           ),
-          //..................................qonatity............................
+          //..................................quantity............................
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 12),
             decoration: BoxDecoration(

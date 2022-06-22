@@ -38,7 +38,7 @@ class ImageHandler extends StatelessWidget {
                   : const Padding(
                       padding: EdgeInsets.only(top: 8.0),
                       child: Text(
-                        'Please choose an image to perview',
+                        'Please choose an image to preview',
                         textAlign: TextAlign.center,
                       ),
                     )),

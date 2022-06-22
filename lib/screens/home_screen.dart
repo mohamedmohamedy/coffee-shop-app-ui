@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../screens/products_screen.dart';
+import 'admin_products_screen.dart';
+import 'user_products_screen.dart';
 import '../screens/auth_screen.dart';
 
 import '../providers/auth_provider.dart';
@@ -16,14 +17,24 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     final authData = Provider.of<AuthProvider>(context);
-    
+
     // Check if the user has a token or not, if he has a valid one he will be signed in automatically, if not he will need to authenticate.
     void tryLogin() {
-      authData.autoLogIn().then((_) {
-        authData.isAuth
-            ? Navigator.of(context).pushNamed(ProductsScreen.routeName)
-            : Navigator.of(context).pushNamed(AuthScreen.routeName);
-      },
+      authData.autoLogIn().then(
+        (_) {
+          if (authData.isAuth) {
+            // if it's the admin who logging in or a user.
+            if (authData.userId == 'NTzenSI2EoNkWbw02BBBZNXCdM02') {
+              Navigator.of(context).pushNamed(AdminProductsScreen.routeName);
+            } else {
+              Navigator.of(context).pushNamed(UserProductsScreen.routeName);
+            }
+          }
+
+          if (!authData.isAuth) {
+            Navigator.of(context).pushNamed(AuthScreen.routeName);
+          }
+        },
       );
     }
 

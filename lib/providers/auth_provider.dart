@@ -28,6 +28,13 @@ class AuthProvider with ChangeNotifier {
     return token != null;
   }
 
+  String? get userId {
+    if (_userId != null) {
+      return _userId;
+    }
+    return null;
+  }
+
   // Making a signing method because it is the same logic to avoid repeating and make clean, linear code.
   Future<void> _authenticate(
       String? email, String? password, String? segment) async {

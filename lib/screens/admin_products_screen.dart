@@ -1,3 +1,5 @@
+// this is admin products screen that has a floating action button that Adding or editing products. 
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -6,11 +8,11 @@ import '../screens/add_product_screen.dart';
 import '../providers/coffee_provider.dart';
 import '../providers/auth_provider.dart';
 
-import '../widgets/product_item.dart';
+import '../widgets/admin_product_item.dart';
 
-class ProductsScreen extends StatelessWidget {
-  static const routeName = 'test-screen';
-  const ProductsScreen({Key? key}) : super(key: key);
+class AdminProductsScreen extends StatelessWidget {
+  static const routeName = 'admin-products-screen';
+  const AdminProductsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -140,7 +142,7 @@ class ProductsScreen extends StatelessWidget {
                             ListView.builder(
                               shrinkWrap: true,
                               itemCount: products.items.length,
-                              itemBuilder: (context, index) => ProductItem(
+                              itemBuilder: (context, index) => AdminProductItem(
                                 coffeeName: products.items[index].name,
                                 firstImage: Image(
                                   image: NetworkImage(

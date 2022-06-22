@@ -5,10 +5,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 import './screens/home_screen.dart';
-import './screens/products_screen.dart';
+import 'screens/admin_products_screen.dart';
 import './screens/product_details.dart';
 import './screens/add_product_screen.dart';
 import './screens/auth_screen.dart';
+import './screens/user_products_screen.dart';
 
 import './providers/product_provider.dart';
 import './providers/coffee_provider.dart';
@@ -61,10 +62,11 @@ class MyApp extends StatelessWidget {
         initialRoute: HomeScreen.routeName,
         routes: {
           HomeScreen.routeName: (ctx) => const HomeScreen(),
-          ProductsScreen.routeName: (ctx) => const ProductsScreen(),
+          AdminProductsScreen.routeName: (ctx) => const AdminProductsScreen(),
           ProductDetails.routeName: (ctx) => const ProductDetails(),
           AddProductScreen.routeName: (context) => const AddProductScreen(),
           AuthScreen.routeName: (context) => const AuthScreen(),
+          UserProductsScreen.routeName: ((context) => const UserProductsScreen()),
         },
       ),
     );

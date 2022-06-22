@@ -1,12 +1,10 @@
+// This is the user screen where there isn't write tools only reading.
+
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../screens/product_details.dart';
-import '../screens/add_product_screen.dart';
 
-import '../providers/coffee_provider.dart';
-
-class ProductItem extends StatelessWidget {
+class UserProductItem extends StatelessWidget {
   final String? coffeeName;
   final Image firstImage;
   final Image secondImage;
@@ -14,7 +12,7 @@ class ProductItem extends StatelessWidget {
   final String? productID;
 
   // ignore: use_key_in_widget_constructors
-  const ProductItem({
+  const UserProductItem({
     required this.coffeeName,
     required this.firstImage,
     required this.secondImage,
@@ -99,10 +97,11 @@ class ProductItem extends StatelessWidget {
                     child: Hero(
                       tag: productID!,
                       child: FadeInImage(
-                        placeholder: const AssetImage('assets/images/place-holder2.png'),
-                        image:  firstImage.image ,  
-                        fit: BoxFit.cover, 
-                        placeholderFit: BoxFit.scaleDown,                
+                        placeholder:
+                            const AssetImage('assets/images/place-holder2.png'),
+                        image: firstImage.image,
+                        fit: BoxFit.cover,
+                        placeholderFit: BoxFit.scaleDown,
                       ),
                     ),
                     // child: FittedBox(
@@ -117,43 +116,6 @@ class ProductItem extends StatelessWidget {
                       fit: BoxFit.cover,
                       child: (secondImage),
                     ),
-                  ),
-                ],
-              ),
-            ),
-            //..........Edit and Delete icons...................................
-            Positioned(
-              right: 20,
-              top: 10,
-              child: Row(
-                children: [
-                  IconButton(
-                    iconSize: 30,
-                    onPressed: () async {
-                      try {
-                        await Provider.of<CoffeeProvider>(context,
-                                listen: false)
-                            .deleteProduct(productID!);
-                      } catch (error) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text(
-                              'Deleting failed!',
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        );
-                      }
-                    },
-                    icon: const Icon(Icons.delete),
-                  ),
-                  IconButton(
-                    iconSize: 30,
-                    onPressed: () => Navigator.of(context).pushNamed(
-                      AddProductScreen.routeName,
-                      arguments: productID,
-                    ),
-                    icon: const Icon(Icons.edit),
                   ),
                 ],
               ),

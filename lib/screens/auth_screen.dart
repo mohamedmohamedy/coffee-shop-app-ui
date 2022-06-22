@@ -3,7 +3,8 @@ import 'package:provider/provider.dart';
 
 import '../providers/auth_provider.dart';
 
-import '../screens/products_screen.dart';
+import 'admin_products_screen.dart';
+import '../screens/user_products_screen.dart';
 
 import '../models/http_exception.dart';
 
@@ -70,6 +71,8 @@ class _AuthCardState extends State<AuthCard> with TickerProviderStateMixin {
   final Map<String?, String?> _signData = {'E-mail': '', 'Password': ''};
 
   final _passwordController = TextEditingController();
+
+  final _emailController = TextEditingController();
 
   final GlobalKey<FormState> _formKey = GlobalKey();
 
@@ -161,9 +164,15 @@ class _AuthCardState extends State<AuthCard> with TickerProviderStateMixin {
           _signData['password'],
         );
       }
-
+      // this is the Admin E-mail which will have the privileges of write the data (add,modify and delete).
+      if (_emailController.text == 'test@test.com') {
+        Navigator.of(context).pushReplacementNamed(AdminProductsScreen.routeName);
+      } else {
+        // this is for the other users who will only read the data.
+        Navigator.of(context)
+            .pushReplacementNamed(UserProductsScreen.routeName);
+      }
       // Navigate to products screen if authenticated...
-      Navigator.of(context).pushReplacementNamed(ProductsScreen.routeName);
 
       // Catching authentication errors...
     } on HttpException catch (error) {
@@ -230,6 +239,7 @@ class _AuthCardState extends State<AuthCard> with TickerProviderStateMixin {
               children: [
                 //....................E-mail.........................................
                 TextFormField(
+                  controller: _emailController,
                   decoration: const InputDecoration(labelText: 'E-mail'),
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {

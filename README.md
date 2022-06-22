@@ -10,6 +10,11 @@ i used Provider State managment to deliver the data through the application, and
 ### Design Details
 the whole UI is inspiring for [Dribbble](https://dribbble.com) website and helped me a lot with new ideas.
 
+### Database and Storage
+I used Firebase Realtime database to store the products and handel the Authentications of the application, and only one admin can write (modify, add and delete products)
+and the rest of the users only can read.
+the admin account (E-mail: test@test.com & Password: 123456) 
+
 ### Screeshots
 
 <p align="center">

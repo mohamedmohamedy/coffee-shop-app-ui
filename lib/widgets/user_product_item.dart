@@ -84,7 +84,10 @@ class UserProductItem extends StatelessWidget {
                             shape: const CircleBorder(),
                             //primary: Color.fromRGBO(67, 41, 13, .5),
                           ),
-                          onPressed: () {},
+                          onPressed: () => Navigator.of(context).pushNamed(
+                            ProductDetails.routeName,
+                            arguments: productID,
+                          ),
                           child: const Icon(Icons.add),
                         ),
                       ],

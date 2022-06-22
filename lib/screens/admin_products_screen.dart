@@ -26,7 +26,7 @@ class AdminProductsScreen extends StatelessWidget {
         backgroundColor: const Color.fromRGBO(84, 59, 31, .8),
         child: const Icon(Icons.add),
       ),
-      body: Stack(
+      body: Stack( 
         children: [
           //...................Background.....................................................................
           Opacity(

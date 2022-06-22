@@ -88,7 +88,10 @@ class AdminProductItem extends StatelessWidget {
                             shape: const CircleBorder(),
                             //primary: Color.fromRGBO(67, 41, 13, .5),
                           ),
-                          onPressed: () {},
+                          onPressed: () => Navigator.of(context).pushNamed(
+                            ProductDetails.routeName,
+                            arguments: productID,
+                          ),
                           child: const Icon(Icons.add),
                         ),
                       ],
@@ -101,10 +104,11 @@ class AdminProductItem extends StatelessWidget {
                     child: Hero(
                       tag: productID!,
                       child: FadeInImage(
-                        placeholder: const AssetImage('assets/images/place-holder2.png'),
-                        image:  firstImage.image ,  
-                        fit: BoxFit.cover, 
-                        placeholderFit: BoxFit.scaleDown,                
+                        placeholder:
+                            const AssetImage('assets/images/place-holder2.png'),
+                        image: firstImage.image,
+                        fit: BoxFit.cover,
+                        placeholderFit: BoxFit.scaleDown,
                       ),
                     ),
                     // child: FittedBox(

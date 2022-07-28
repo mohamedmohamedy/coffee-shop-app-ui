@@ -1,4 +1,4 @@
-# Coffee Shop UI
+# Coffee Shop 
 
 App concept created with [Flutter](https://flutter.dev/) using Dart programming language.
 
